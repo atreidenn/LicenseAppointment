@@ -72,7 +72,7 @@ def appointment_search():
         appointment_search()
     elif error_msg.text == 'Estamos recibiendo un número muy elevado de accesos que no ' \
                            'nos permiten procesar tu petición. Por favor, inténtalo de nuevo pasados unos minutos.':
-        time.sleep(5)
+        time.sleep(15)
         appointment_search()
     else:
         print(f'Appointment found at: {office_id[num]}.')
