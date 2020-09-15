@@ -1,2 +1,2 @@
 # LicenseAppointment
-A script which looks for an available appointment to swap my license.
+A script which looks for an available license appointment at the Spanish 'DMV'.
