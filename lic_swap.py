@@ -54,7 +54,7 @@ def appointment_search():
         num += 1
         appointment_search()
 
-    # Select Venezuela as country.
+    # Select country.
     drop_down3 = Select(driver.find_element_by_name('publicacionesForm:pais'))
     drop_down3.select_by_value('21') # This specific value is for Venezuela.
 
