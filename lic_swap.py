@@ -10,7 +10,7 @@ from selenium.webdriver.support import expected_conditions as EC
 # import email
 
 
-PATH = '/Users/juandiegougueto/Documents/PY/chromedriver'
+PATH = 'insert_file_path_here'
 form_url = 'https://sedeapl.dgt.gob.es:7443/WEB_NCIT_CONSULTA/solicitarCita.faces'
 driver = webdriver.Chrome(PATH)
 num = 0
@@ -44,12 +44,17 @@ def appointment_search():
     drop_down1.select_by_visible_text(office_id[num])
 
     # Select specific appointment type.
-    drop_down2 = Select(driver.find_element_by_name('publicacionesForm:tipoTramite'))
-    drop_down2.select_by_value('3')
+        try:
+        drop_down2 = Select(driver.find_element_by_name('publicacionesForm:tipoTramite'))
+        drop_down2.select_by_value('3') # This specific value is for the license swap.
+    except NoSuchElementException:
+        time.sleep(3)
+        num += 1
+        appointment_search()
 
     # Select Venezuela as country.
     drop_down3 = Select(driver.find_element_by_name('publicacionesForm:pais'))
-    drop_down3.select_by_value('21')
+    drop_down3.select_by_value('21') # This specific value is for Venezuela.
 
     # Click search.
     search_button = driver.find_element_by_name('publicacionesForm:j_id70')
@@ -57,16 +62,12 @@ def appointment_search():
 
     # If there is no available appointment, start a loop.
     error_msg = driver.find_element_by_class_name('msgError')
-
-    while error_msg:
+    
+    if error_msg:
         num += 1
-        time.sleep(1)
+        time.sleep(3)
         appointment_search()
-        if num == len(office_id) - 1:
-            num = 0
-        if not error_msg:
-            print(f'Appointment found at: {office_id[num]}.')
-            break
-
+    else:
+        print(f'Appointment found at: {office_id[num]}.')
 
 appointment_search()
