@@ -65,9 +65,14 @@ def appointment_search():
     # If there is no available appointment, start a loop.
     error_msg = driver.find_element_by_class_name('msgError')
     
-    if error_msg:
+    if error_msg.text == 'El horario de atención al cliente está completo para los próximos días. ' \
+                         'Inténtelo más tarde.':
         num += 1
         time.sleep(3)
+        appointment_search()
+    elif error_msg.text == 'Estamos recibiendo un número muy elevado de accesos que no ' \
+                           'nos permiten procesar tu petición. Por favor, inténtalo de nuevo pasados unos minutos.':
+        time.sleep(5)
         appointment_search()
     else:
         print(f'Appointment found at: {office_id[num]}.')
