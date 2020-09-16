@@ -50,7 +50,7 @@ def appointment_search():
         drop_down2 = Select(driver.find_element_by_name('publicacionesForm:tipoTramite'))
         drop_down2.select_by_value('3')  # This value is for license swap.
     except NoSuchElementException:
-        time.sleep(3)
+        time.sleep(10)  # For ethical web scraping.
         num += 1
         appointment_search()
 
@@ -69,7 +69,7 @@ def appointment_search():
         num += 1
         if num == len(office_id) - 1:
             num = 0
-        time.sleep(5)
+        time.sleep(15)  # I use 10-15 seconds of wait time, so as to not bombard the site with requests. 
         appointment_search()
     else:
         print(f'Appointment found at: {office_id[num]}.')
