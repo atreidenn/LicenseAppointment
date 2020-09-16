@@ -12,7 +12,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 # import email
 
 
-PATH = 'insert_file_path_here'
+PATH = '/Users/juandiegougueto/Documents/PY/chromedriver'
 form_url = 'https://sedeapl.dgt.gob.es:7443/WEB_NCIT_CONSULTA/solicitarCita.faces'
 driver = webdriver.Chrome(PATH)
 num = 0
@@ -46,9 +46,9 @@ def appointment_search():
     drop_down1.select_by_visible_text(office_id[num])
 
     # Select specific appointment type.
-        try:
+    try:
         drop_down2 = Select(driver.find_element_by_name('publicacionesForm:tipoTramite'))
-        drop_down2.select_by_value('3') # This specific value is for the license swap.
+        drop_down2.select_by_value('3')  # This value is for license swap.
     except NoSuchElementException:
         time.sleep(3)
         num += 1
@@ -56,7 +56,7 @@ def appointment_search():
 
     # Select country.
     drop_down3 = Select(driver.find_element_by_name('publicacionesForm:pais'))
-    drop_down3.select_by_value('21') # This specific value is for Venezuela.
+    drop_down3.select_by_value('21')  # This specific value is for Venezuela.
 
     # Click search.
     search_button = driver.find_element_by_name('publicacionesForm:j_id70')
@@ -64,17 +64,15 @@ def appointment_search():
 
     # If there is no available appointment, start a loop.
     error_msg = driver.find_element_by_class_name('msgError')
-    
-    if error_msg.text == 'El horario de atención al cliente está completo para los próximos días. ' \
-                         'Inténtelo más tarde.':
+
+    if error_msg:
         num += 1
-        time.sleep(3)
-        appointment_search()
-    elif error_msg.text == 'Estamos recibiendo un número muy elevado de accesos que no ' \
-                           'nos permiten procesar tu petición. Por favor, inténtalo de nuevo pasados unos minutos.':
-        time.sleep(15)
+        if num == len(office_id) - 1:
+            num = 0
+        time.sleep(5)
         appointment_search()
     else:
         print(f'Appointment found at: {office_id[num]}.')
+
 
 appointment_search()
