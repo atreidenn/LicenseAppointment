@@ -6,10 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 # from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
-
-# I plan to add a notification via email or a pop-up notification on my laptop screen.
-# import smptlib
-# import email
+from tkinter import messagebox
 
 
 PATH = '/Users/juandiegougueto/Documents/PY/chromedriver'
@@ -50,7 +47,7 @@ def appointment_search():
         drop_down2 = Select(driver.find_element_by_name('publicacionesForm:tipoTramite'))
         drop_down2.select_by_value('3')  # This value is for license swap.
     except NoSuchElementException:
-        time.sleep(10)  # For ethical web scraping.
+        time.sleep(5)
         num += 1
         appointment_search()
 
@@ -69,10 +66,10 @@ def appointment_search():
         num += 1
         if num == len(office_id) - 1:
             num = 0
-        time.sleep(15)  # I use 10-15 seconds of wait time, so as to not bombard the site with requests. 
+        time.sleep(10)
         appointment_search()
     else:
-        print(f'Appointment found at: {office_id[num]}.')
+        messagebox.showinfo('Success.', 'Appointment found.')
 
 
 appointment_search()
